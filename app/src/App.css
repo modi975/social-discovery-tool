@@ -1,0 +1,76 @@
+body {
+  font-size: 13px !important;
+}
+
+label.clickable-tab {
+  min-width: 100%;
+}
+
+#alertCompanyName, #eventCompanyName, #brandCompanyName {
+  background-color: #f4f4f4;
+}
+
+label[for="emailAddress"], label[htmlFor="emailAddress"] {
+  margin: 0px;
+}
+
+.center-text {
+  text-align: justify;
+}
+
+.input-inherit {
+  position: inherit !important;
+  left: inherit !important;
+  margin-left: 0px !important;
+  top: inherit !important;
+}
+
+.example-col {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem;
+  float: left;
+}
+
+.example {
+  min-height: 250px;
+}
+
+/* .container {
+  min-height: 400px;
+} */
+
+.extra-right-space {
+  margin-right: 0.5em;
+}
+
+p {
+  justify-content: stretch !important;
+}
+
+.row {
+  display: flex !important;
+  /* justify-content: space-between !important; */
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
