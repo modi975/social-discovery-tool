@@ -129,8 +129,8 @@ export class Tracking extends Component {
     } else {
       return (
         <Row>
-          <Col>
-            <form inline>
+          <Col md={12}>
+            <form inline className="form-inline">
               <FormGroup controlId="subscriptionemail">
                 <ControlLabel>Receive alerts when these results change:</ControlLabel>
                 <Overlay
@@ -153,11 +153,11 @@ export class Tracking extends Component {
                 <FormControl.Feedback />
               </FormGroup>
               <FormGroup controlId="subscriptionefrequency">
-                <FormControl 
+                <FormControl
                   componentClass="select"
                   placeholder="select"
-                  value={this.state.frequency} 
-                  onChange={this.frequencyChanged} 
+                  value={this.state.frequency}
+                  onChange={this.frequencyChanged}
                   className={this.state.frequencyClass}
                 >
                   <option value="select">select</option>

@@ -74,3 +74,7 @@ p {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.form-inline > .form-group, .form-inline > .form-group > label {
+  margin-right: 5px;
+}
