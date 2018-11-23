@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/IBM/watson-discovery-news-alerting.svg?branch=master)](https://travis-ci.org/IBM/watson-discovery-news-alerting)
 
-# Vineet
 # Watson Discovery News Alerting
 
 In this Code Pattern, we will build a Node.js web application that will use the Watson Discovery Service to access Watson Discovery News.
