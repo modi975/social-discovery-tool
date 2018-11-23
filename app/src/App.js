@@ -22,7 +22,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import { ExampleList, Example } from './components/examples'
 import { CurrentSubscriptions } from './components/subscription'
-
+import logo from './logo.png'
 import './App.css'
 // import 'watson-react-components/dist/css/watson-react-components.min.css'
 
@@ -32,7 +32,7 @@ const Home = () => (
     <Navbar>
       <Navbar.Header>
         <Navbar.Brand>
-          <a href="/#"><Image src={"./logo.png"} /></a>
+          <a href="/#" style={{height: '95px'}}><Image src={logo} style={{height: '100%'}}/></a>
         </Navbar.Brand>
       </Navbar.Header>
       <Nav>

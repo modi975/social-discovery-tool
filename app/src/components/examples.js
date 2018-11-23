@@ -18,6 +18,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button } from 'react-bootstrap'
 import { Route, Switch } from 'react-router-dom'
+import logo from '../logo.png'
 
 import { BrandAlerts, ProductAlerts, RelatedBrands, PositiveProductAlerts, StockAlerts } from './track'
 import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS } from '../watson/constants'
@@ -141,7 +142,7 @@ export class Example extends Component {
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/#"><Image src={"../logo.png"} /></a>
+              <a href="/#" style={{height: '95px'}}><Image src={logo} style={{height: '100%'}}/></a>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
