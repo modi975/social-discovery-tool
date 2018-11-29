@@ -20,7 +20,7 @@ import { Grid, Navbar, Nav, Breadcrumb, Image } from 'react-bootstrap'
 
 import { Route, Switch } from 'react-router-dom'
 
-import { ExampleList, Example } from './components/examples'
+import { ExampleList, Example, AllExample } from './components/examples'
 import { CurrentSubscriptions } from './components/subscription'
 import logo from './logo.png'
 import './App.css'
@@ -47,10 +47,23 @@ const Home = () => (
   </div>
 )
 
+// const getInitialData () => {
+//   console.log("Helo");
+// };
+
+    // <Route path='/track'render={() => (
+    //   isLoggedIn() ? (
+    //     <Redirect to="/front"/>
+    //   ) : (
+    //     <Home />
+    //   )
+    // )}/>
+    // <Route path='/track/:tag' component={Example} />
 const App = () => (
   <Switch>
     <Route exact path='/' component={Home} />
     <Route path='/track' component={Example} />
+    <Route path='/trackit/:tag' component={AllExample} />
     <Route path='/subscription' component={CurrentSubscriptions} />
   </Switch>
 )

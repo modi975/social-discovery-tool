@@ -20,7 +20,8 @@ import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button } from 'react-bo
 import { Route, Switch } from 'react-router-dom'
 import logo from '../logo.png'
 
-import { BrandAlerts, ProductAlerts, RelatedBrands, PositiveProductAlerts, StockAlerts } from './track'
+import { BrandAlerts, ProductAlerts, RelatedBrands, PositiveProductAlerts, StockAlerts, AllAlerts } from './track'
+// import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS, All_ALERTS } from '../watson/constants'
 import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS } from '../watson/constants'
 
 // TODO rename
@@ -135,7 +136,8 @@ export class Example extends Component {
       match: props.match
     }
   }
-
+  
+  // <Route exact path={this.state.match.url} component={ExampleList} />
   render() {
     return (
       <div>
@@ -167,5 +169,48 @@ export class Example extends Component {
   }
 }
 Example.propTypes = {
+  match: PropTypes.object.isRequired
+}
+
+
+// This is the main page being routed to the homepage / and tracking page /track
+export class AllExample extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      match: props.match
+    }
+  }
+  
+  // <Route exact path={this.state.match.url} component={ExampleList} />
+  render() {
+    console.log(this.state)
+    return (
+      <div>
+        <Navbar>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="/#" style={{height: '95px'}}><Image src={logo} style={{height: '100%'}}/></a>
+            </Navbar.Brand>
+          </Navbar.Header>
+          <Nav>
+            <Breadcrumb>
+              <Breadcrumb.Item href="/#">Social Discovey</Breadcrumb.Item>
+              <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
+            </Breadcrumb>
+          </Nav>
+        </Navbar>;
+        <Grid>
+          <Switch>    
+            <Route path='/trackit/:tag' component={AllAlerts} />
+          </Switch>
+        </Grid>
+      </div>
+    )
+  }
+}
+// <Route path={`/:${this.state.match.params.tag}`} component={AllAlerts} />
+// <Route path={`${this.state.match.url}/${STOCK_ALERTS}/`} component={StockAlerts} />
+AllExample.propTypes = {
   match: PropTypes.object.isRequired
 }

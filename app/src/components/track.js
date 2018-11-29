@@ -22,7 +22,7 @@ import { JsonLinkInline } from 'watson-react-components/dist/components'
 import { Tracking } from './tracking'
 import { leftPad } from '../models/frequency'
 
-import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS } from '../watson/constants'
+import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS, ALL_ALERTS } from '../watson/constants'
 
 // Taken from https://github.com/github/fetch/issues/256
 function toQueryString(params) {
@@ -92,7 +92,9 @@ class AlertExample extends Component {
       aggregationData: null
     }
     this.getAlerts = this.getAlerts.bind(this)
+    this.getAAlerts = this.getAAlerts.bind(this)
     this.parseBody = this.parseBody.bind(this)
+    this.parseAllBody = this.parseAllBody.bind(this)
     this.showResultsOrError = this.showResultsOrError.bind(this)
     this.renderSearchBox = this.renderSearchBox.bind(this)
 
@@ -159,6 +161,28 @@ class AlertExample extends Component {
     })
   }
 
+  // The response is in the correct format for display in list for but the aggregations need the dates converted back from strings.
+  parseAllBody(body) {
+    console.log(body)
+    const data = []
+    for (const result of body.aggregations[0].results) {
+      const date = new Date(0)
+      // The date is in milliseconds provided by Watson, NOTE milliseconds!
+      date.setUTCSeconds(result.key / 1000)
+      data.push({
+        name: `${leftPad(date.getUTCMonth() + 1, '0', 2)}/${leftPad(date.getUTCDate(), '0', 2)}`,  // Change the date format to be MM/DD
+        amount: result.matching_results,
+        date: date})
+    }
+    const sorted = data.sort(this.sort)
+    this.setState({
+      loading: false,
+      aggregationData: sorted,
+      exampleAggregationResponse: body.aggregations,
+      exampleResultResponse: body.results
+    })
+  }
+
   getAlerts(url) {
     this.setState({loading: true})
     fetch(url)
@@ -170,6 +194,29 @@ class AlertExample extends Component {
           error: true})
         console.error(error)
       })
+  }
+  getAAlerts(tag) {
+    let apiarray = [
+      `/api/1/track/brand-alerts/?brand_name=${tag}`,
+      `/api/1/track/product-alerts/?product_name=${tag}`,
+      `/api/1/track/related-brands/?brand_name=${tag}`,
+      `/api/1/track/positive-product-alerts/?product_name=${tag}`,
+      `/api/1/track/stock-alerts/?stock_symbol=${tag}`
+    ]
+
+    for (let index = 0; index < apiarray.length; index++) {
+      this.setState({loading: true})
+      fetch(apiarray[index])
+      .then((res) => res.json())
+      .then(this.parseAllBody)
+      .catch((error) => {
+        this.setState({
+          loading: false,
+          error: true})
+        console.error(error)
+      })
+      
+    }
   }
 
   renderSearchBox() {
@@ -537,6 +584,47 @@ export class StockAlerts extends AlertExample {
   componentDidMount() {
     if (this.state.keyword) {
       this.getStockAlerts(this.state.keyword)
+    }
+  }
+}
+
+
+export class AllAlerts extends AlertExample {
+  constructor(props) {
+    super(props)
+    console.log(this.state)
+    const tag = this.state.match.params.tag
+    // const stockSymbol = this.state.params.get('tag')
+    this.state.query = ALL_ALERTS
+    this.state.keyword = tag
+
+    this.getAllAlerts = this.getAllAlerts.bind(this)
+    this.renderSearchBox = this.renderSearchBox.bind(this)
+  }
+
+  // BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS
+  getAllAlerts(tag) {
+    // console.log(this.state)
+    console.log(tag)
+    // const queryString = toQueryString({tag: tag})
+    this.getAAlerts(tag)
+    // this.getAlerts(`/api/1/track/${BRAND_ALERTS}/?${queryString}`)
+    // this.getAlerts(`/api/1/track/${PRODUCT_ALERTS}/?${queryString}`)
+    // this.getAlerts(`/api/1/track/${RELATED_BRANDS}/?${queryString}`)
+    // this.getAlerts(`/api/1/track/${POSITIVE_PRODUCT_ALERTS}/?${queryString}`)
+    // this.getAlerts(`/api/1/track/${STOCK_ALERTS}/?${queryString}`)
+  }
+
+  renderSearchBox() {
+  // console.log(this.state)
+    return (
+      <div></div>
+    )
+  }
+
+  componentDidMount() {
+    if (this.state.keyword) {
+      this.getAllAlerts(this.state.keyword)
     }
   }
 }
