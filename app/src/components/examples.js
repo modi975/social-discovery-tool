@@ -182,9 +182,7 @@ export class AllExample extends Component {
     }
   }
   
-  // <Route exact path={this.state.match.url} component={ExampleList} />
   render() {
-    console.log(this.state)
     return (
       <div>
         <Navbar>
@@ -209,8 +207,7 @@ export class AllExample extends Component {
     )
   }
 }
-// <Route path={`/:${this.state.match.params.tag}`} component={AllAlerts} />
-// <Route path={`${this.state.match.url}/${STOCK_ALERTS}/`} component={StockAlerts} />
+
 AllExample.propTypes = {
   match: PropTypes.object.isRequired
 }

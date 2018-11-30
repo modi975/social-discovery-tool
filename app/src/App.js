@@ -47,18 +47,6 @@ const Home = () => (
   </div>
 )
 
-// const getInitialData () => {
-//   console.log("Helo");
-// };
-
-    // <Route path='/track'render={() => (
-    //   isLoggedIn() ? (
-    //     <Redirect to="/front"/>
-    //   ) : (
-    //     <Home />
-    //   )
-    // )}/>
-    // <Route path='/track/:tag' component={Example} />
 const App = () => (
   <Switch>
     <Route exact path='/' component={Home} />

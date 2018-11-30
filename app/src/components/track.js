@@ -16,7 +16,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts/lib'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts/lib'
 import { Row, Col, FormGroup, InputGroup, FormControl, Button, Alert } from 'react-bootstrap'
 import { JsonLinkInline } from 'watson-react-components/dist/components'
 import { Tracking } from './tracking'
@@ -39,19 +39,22 @@ class SimpleLineChart extends Component {
       data: props.data,
       name: props.name
     }
+    console.log(this.state)
   }
 
   render() {
     return (
-      <LineChart width={600} height={300} data={this.state.data}
-            margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-       <XAxis dataKey='name'/>
-       <YAxis/>
-       <CartesianGrid strokeDasharray='3 3'/>
-       <Tooltip/>
-       <Legend />
-       <Line name={this.state.name} type='monotone' dataKey='amount' stroke='rgb(152, 85, 212)' activeDot={{r: 8}}/>
-      </LineChart>
+      <ResponsiveContainer width='100%' aspect={16.0/9.0}>
+        <LineChart data={this.state.data}
+              margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+          <XAxis dataKey='name'/>
+          <YAxis/>
+          <CartesianGrid strokeDasharray='3 3'/>
+          <Tooltip/>
+          <Legend />
+          <Line name={this.state.name} type='monotone' dataKey='amount' stroke='rgb(152, 85, 212)' activeDot={{r: 8}}/>
+        </LineChart>
+      </ResponsiveContainer>
     )
   }
 }
@@ -89,7 +92,8 @@ class AlertExample extends Component {
       exampleResponse: null,
       showExampleAggregationResponse: false,
       showExampleResultResponse: false,
-      aggregationData: null
+      aggregationData: null,
+      resArray: [],
     }
     this.getAlerts = this.getAlerts.bind(this)
     this.getAAlerts = this.getAAlerts.bind(this)
@@ -97,6 +101,11 @@ class AlertExample extends Component {
     this.parseAllBody = this.parseAllBody.bind(this)
     this.showResultsOrError = this.showResultsOrError.bind(this)
     this.renderSearchBox = this.renderSearchBox.bind(this)
+    // this.getBrandAlerts = this.getBrandAlerts.bind(this)
+    // this.getProductAlerts = this.getProductAlerts.bind(this) 
+    // this.getRealtedAlerts = this.getRealtedAlerts.bind(this)
+    // this.getPositiveProductAlerts = this.getPositiveProductAlerts.bind(this) 
+    // this.getStockAlerts = this.getStockAlerts.bind(this)
 
     this.onExitExampleAggregationResponse = this.onExitExampleAggregationResponse.bind(this)
     this.onShowExampleAggregationResponse = this.onShowExampleAggregationResponse.bind(this)
@@ -162,25 +171,28 @@ class AlertExample extends Component {
   }
 
   // The response is in the correct format for display in list for but the aggregations need the dates converted back from strings.
-  parseAllBody(body) {
-    console.log(body)
-    const data = []
-    for (const result of body.aggregations[0].results) {
-      const date = new Date(0)
-      // The date is in milliseconds provided by Watson, NOTE milliseconds!
-      date.setUTCSeconds(result.key / 1000)
-      data.push({
-        name: `${leftPad(date.getUTCMonth() + 1, '0', 2)}/${leftPad(date.getUTCDate(), '0', 2)}`,  // Change the date format to be MM/DD
-        amount: result.matching_results,
-        date: date})
+  parseAllBody() {
+    // console.log(this.state)
+    var newResArray = this.state.resArray;
+    for (let respo of this.state.resArray) {
+      const data = []
+      // console.log(respo)
+      for (const result of respo.aggregations[0].results) {
+        const date = new Date(0)
+        // The date is in milliseconds provided by Watson, NOTE milliseconds!
+        date.setUTCSeconds(result.key / 1000)
+        data.push({
+          name: `${leftPad(date.getUTCMonth() + 1, '0', 2)}/${leftPad(date.getUTCDate(), '0', 2)}`,  // Change the date format to be MM/DD
+          amount: result.matching_results,
+          date: date})
+      }
+      // const sorted = data.sort(this.sort)
+      respo['aggregationData'] = data.sort(this.sort)
     }
-    const sorted = data.sort(this.sort)
     this.setState({
       loading: false,
-      aggregationData: sorted,
-      exampleAggregationResponse: body.aggregations,
-      exampleResultResponse: body.results
-    })
+      resArray: newResArray
+    }) 
   }
 
   getAlerts(url) {
@@ -195,28 +207,80 @@ class AlertExample extends Component {
         console.error(error)
       })
   }
-  getAAlerts(tag) {
-    let apiarray = [
-      `/api/1/track/brand-alerts/?brand_name=${tag}`,
-      `/api/1/track/product-alerts/?product_name=${tag}`,
-      `/api/1/track/related-brands/?brand_name=${tag}`,
-      `/api/1/track/positive-product-alerts/?product_name=${tag}`,
-      `/api/1/track/stock-alerts/?stock_symbol=${tag}`
-    ]
 
-    for (let index = 0; index < apiarray.length; index++) {
-      this.setState({loading: true})
-      fetch(apiarray[index])
+  getBrandAlerts(tag) {
+    return fetch(`/api/1/track/brand-alerts/?brand_name=${tag}`)
       .then((res) => res.json())
-      .then(this.parseAllBody)
-      .catch((error) => {
-        this.setState({
-          loading: false,
-          error: true})
-        console.error(error)
-      })
-      
-    }
+  }
+  getProductAlerts(tag) {
+    return fetch(`/api/1/track/product-alerts/?product_name=${tag}`)
+      .then((res) => res.json())
+  }
+  getRealtedAlerts(tag) {
+    return fetch(`/api/1/track/related-brands/?brand_name=${tag}`)
+      .then((res) => res.json())
+  }
+  getPositiveProductAlerts(tag) {
+    return fetch(`/api/1/track/positive-product-alerts/?product_name=${tag}`)
+      .then((res) => res.json())
+  }
+  getStockAlerts(tag) {
+    return fetch(`/api/1/track/stock-alerts/?stock_symbol=${tag}`)
+      .then((res) => res.json())
+  }
+
+  getAAlertsPre(tag) {
+    return Promise.all([this.getBrandAlerts(tag), this.getProductAlerts(tag), this.getRealtedAlerts(tag), this.getPositiveProductAlerts(tag), this.getStockAlerts(tag)])
+  }
+
+  getAAlerts(tag) {
+    this.setState({loading: true})
+    this.getAAlertsPre(tag)
+      .then(([brands, products, related, positive, stocks]) => {
+        let resArray = []
+        brands['title'] = 'Brand Alerts'
+        products['title'] = 'Product Alerts' 
+        related['title'] = 'Related Brands'
+        positive['title'] = 'Positive Product Alerts'
+        stocks['title'] = 'Stock Alerts'
+        resArray.push(brands)
+        resArray.push(products)
+        resArray.push(related)
+        resArray.push(positive)
+        resArray.push(stocks)
+        this.setState({ resArray: resArray, loading: false })
+        this.parseAllBody()
+      // both have loaded!
+    })
+    // let apiarray = [
+    //   {'api': `/api/1/track/brand-alerts/?brand_name=${tag}`, 'title': 'Brand Alerts'},
+    //   {'api': `/api/1/track/product-alerts/?product_name=${tag}`, 'title': 'Product Alerts'},
+    //   {'api': `/api/1/track/related-brands/?brand_name=${tag}`, 'title': 'Related Brands'},
+    //   {'api': `/api/1/track/positive-product-alerts/?product_name=${tag}`, 'title': 'Positive Product Alerts'},
+    //   {'api': `/api/1/track/stock-alerts/?stock_symbol=${tag}`, 'title': 'Stock Alerts'}
+    // ]
+    // let resArray = []
+    // apiarray.forEach(function (apiobj, index) {
+    //   fetch(apiobj.api)
+    //   .then((res) => res.json())
+    //   .then(data => {
+    //     data['title'] = apiobj.title
+    //     console.log(data)
+    //     console.log(index)
+    //     if (index <= 4) {
+    //       resArray.push(data)
+    //     } else {
+    //       this.setState({ resArray: resArray, loading: false })
+    //       this.parseAllBody()
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     this.setState({
+    //       loading: false,
+    //       error: true})
+    //     console.error(error)
+    //   })      
+    // })
   }
 
   renderSearchBox() {
@@ -229,6 +293,15 @@ class AlertExample extends Component {
     )
   }
 
+  // renderCards(card, i) {
+  //   return (
+  //     <Col md={3} className='card-col' key={i}>
+  //       <div className='card'>
+  //         <h4>{card.title}</h4>
+  //       </div>
+  //     </Col>
+  //   )
+  // }
   // TODO Instead of doing the big if/elses here, it'd be preferable to separate into different components so that it's easier to debug when
   // certain state issues occur
   showResultsOrError() {
@@ -265,57 +338,98 @@ class AlertExample extends Component {
       // This is primarily to avoid using == to check the keyword == null
       return this.renderSearchBox()
     } else {
-      return (
-        <div>
-          {this.renderSearchBox()}
-          <Tracking query={this.state.query} keyword={this.state.keyword}  />
-          <Row>
-            <Col md={6} mdPush={6}>
-              <Row>
-                <Col md={12}>
-                  <h2>Visualization of <b>aggregation</b> results</h2>
-                  <SimpleLineChart data={this.state.aggregationData} name='Matching articles per day' />
-                </Col>
-              </Row>
-              <Row>
-                <Col md={12}>
-                  <JsonLinkInline
-                    json={this.state.exampleAggregationResponse}
-                    showJson={this.state.showExampleAggregationResponse}
-                    onExit={this.onExitExampleAggregationResponse}
-                    onShow={this.onShowExampleAggregationResponse}
-                    description={<p>Inspect raw aggregation response from Watson&rsquo;s Discovery News used to build the visualization</p>}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col md={12}>
-                  <JsonLinkInline
-                    json={this.state.exampleResultResponse}
-                    showJson={this.state.showExampleResultResponse}
-                    onExit={this.onExitExampleResultResponse}
-                    onShow={this.onShowExampleResultResponse}
-                    description={<p>Inspect raw results response from Watson&rsquo;s Discovery News used in the listing of results</p>}
-                  />
-                </Col>
-              </Row>
+      if (this.state.resArray.length === 0) {
+        return (
+          <div>
+            {this.renderSearchBox()}
+            <Tracking query={this.state.query} keyword={this.state.keyword}  />
+            <Row>
+              <Col md={6} mdPush={6}>
+                <Row>
+                  <Col md={12}>
+                    <h2>Visualization of <b>aggregation</b> results</h2>
+                    <SimpleLineChart data={this.state.aggregationData} name='Matching articles per day' />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={12}>
+                    <JsonLinkInline
+                      json={this.state.exampleAggregationResponse}
+                      showJson={this.state.showExampleAggregationResponse}
+                      onExit={this.onExitExampleAggregationResponse}
+                      onShow={this.onShowExampleAggregationResponse}
+                      description={<p>Inspect raw aggregation response from Watson&rsquo;s Discovery News used to build the visualization</p>}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={12}>
+                    <JsonLinkInline
+                      json={this.state.exampleResultResponse}
+                      showJson={this.state.showExampleResultResponse}
+                      onExit={this.onExitExampleResultResponse}
+                      onShow={this.onShowExampleResultResponse}
+                      description={<p>Inspect raw results response from Watson&rsquo;s Discovery News used in the listing of results</p>}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+              <Col md={6} mdPull={6}>
+                <h2>Results</h2>
+                <p>These articles are pulled from Watson&rsquo;s Discovery News based on a query and filtering for relevance</p>
+                {this.state.exampleResultResponse && this.state.exampleResultResponse.map((result, i) =>
+                  <div key={i}>
+                    <h3>
+                      <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
+                      <a href={result.url} title={result.title}>{result.title}</a>
+                    </h3>
+                    <p>{result.alchemyapi_text}</p>
+                  </div>
+                )}
+              </Col>
+            </Row>
+          </div>
+        )
+      } else {
+        return (
+          <div>
+          {this.state.resArray[0].aggregationData && this.state.resArray.map((card, i) =>
+            <Col md={4} className='card-col' key={i}>
+              <div className='card'>
+                <Row>
+                  <Col md={12}>
+                    <h4>{card.title}</h4>    
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={12}>
+                    <Row>
+                      <Col md={12}>
+                        {console.log(card)}
+                        <SimpleLineChart data={card.aggregationData} name={card.title} />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md={12}>
+                        {card.results && card.results.map((result, j) =>
+                          <div key={j}>
+                            <h5>
+                              <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
+                              <a href={result.url} title={result.title}>{result.title}</a>
+                            </h5>
+                            <p>{result.alchemyapi_text}</p>
+                          </div>
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>                
+              </div>
             </Col>
-            <Col md={6} mdPull={6}>
-              <h2>Results</h2>
-              <p>These articles are pulled from Watson&rsquo;s Discovery News based on a query and filtering for relevance</p>
-              {this.state.exampleResultResponse && this.state.exampleResultResponse.map((result, i) =>
-                <div key={i}>
-                  <h3>
-                    <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
-                    <a href={result.url} title={result.title}>{result.title}</a>
-                  </h3>
-                  <p>{result.alchemyapi_text}</p>
-                </div>
-              )}
-            </Col>
-          </Row>
-        </div>
-      )
+          )}
+          </div>
+        )
+      }
     }
   }
 
@@ -592,7 +706,7 @@ export class StockAlerts extends AlertExample {
 export class AllAlerts extends AlertExample {
   constructor(props) {
     super(props)
-    console.log(this.state)
+    // console.log(this.state)
     const tag = this.state.match.params.tag
     // const stockSymbol = this.state.params.get('tag')
     this.state.query = ALL_ALERTS
@@ -602,21 +716,12 @@ export class AllAlerts extends AlertExample {
     this.renderSearchBox = this.renderSearchBox.bind(this)
   }
 
-  // BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS
   getAllAlerts(tag) {
-    // console.log(this.state)
     console.log(tag)
-    // const queryString = toQueryString({tag: tag})
     this.getAAlerts(tag)
-    // this.getAlerts(`/api/1/track/${BRAND_ALERTS}/?${queryString}`)
-    // this.getAlerts(`/api/1/track/${PRODUCT_ALERTS}/?${queryString}`)
-    // this.getAlerts(`/api/1/track/${RELATED_BRANDS}/?${queryString}`)
-    // this.getAlerts(`/api/1/track/${POSITIVE_PRODUCT_ALERTS}/?${queryString}`)
-    // this.getAlerts(`/api/1/track/${STOCK_ALERTS}/?${queryString}`)
   }
 
   renderSearchBox() {
-  // console.log(this.state)
     return (
       <div></div>
     )
