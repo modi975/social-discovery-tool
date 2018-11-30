@@ -29,10 +29,10 @@ import './App.css'
 // Primary homepage
 const Home = () => (
   <div>
-    <Navbar>
+    <Navbar fluid>
       <Navbar.Header>
         <Navbar.Brand>
-          <a href="/#" style={{height: '95px'}}><Image src={logo} style={{height: '100%'}}/></a>
+          <a href="/#" style={{height: '54px', padding: '0px'}}><Image src={logo} style={{height: '100%'}}/></a>
         </Navbar.Brand>
       </Navbar.Header>
       <Nav>
@@ -41,7 +41,7 @@ const Home = () => (
         </Breadcrumb>
       </Nav>
     </Navbar>;
-    <Grid>
+    <Grid fluid>
       <ExampleList />
     </Grid>
   </div>

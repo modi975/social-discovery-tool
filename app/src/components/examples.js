@@ -185,10 +185,10 @@ export class AllExample extends Component {
   render() {
     return (
       <div>
-        <Navbar>
+        <Navbar fluid>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/#" style={{height: '95px'}}><Image src={logo} style={{height: '100%'}}/></a>
+              <a href="/#" style={{height: '54px', padding: '0px'}}><Image src={logo} style={{height: '100%'}}/></a>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
@@ -198,7 +198,7 @@ export class AllExample extends Component {
             </Breadcrumb>
           </Nav>
         </Navbar>;
-        <Grid>
+        <Grid fluid>
           <Switch>    
             <Route path='/trackit/:tag' component={AllAlerts} />
           </Switch>

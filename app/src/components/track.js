@@ -17,7 +17,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts/lib'
-import { Row, Col, FormGroup, InputGroup, FormControl, Button, Alert } from 'react-bootstrap'
+import { Row, Col, FormGroup, InputGroup, FormControl, Button, Alert, ListGroup, ListGroupItem } from 'react-bootstrap'
 import { JsonLinkInline } from 'watson-react-components/dist/components'
 import { Tracking } from './tracking'
 import { leftPad } from '../models/frequency'
@@ -41,12 +41,11 @@ class SimpleLineChart extends Component {
     }
     console.log(this.state)
   }
-
+  // margin={{top: 5, right: 30, left: 20, bottom: 5}}
   render() {
     return (
-      <ResponsiveContainer width='100%' aspect={16.0/9.0}>
-        <LineChart data={this.state.data}
-              margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+      <ResponsiveContainer width='80%' aspect={16.0/9.0}>
+        <LineChart data={this.state.data}>
           <XAxis dataKey='name'/>
           <YAxis/>
           <CartesianGrid strokeDasharray='3 3'/>
@@ -177,17 +176,19 @@ class AlertExample extends Component {
     for (let respo of this.state.resArray) {
       const data = []
       // console.log(respo)
-      for (const result of respo.aggregations[0].results) {
-        const date = new Date(0)
-        // The date is in milliseconds provided by Watson, NOTE milliseconds!
-        date.setUTCSeconds(result.key / 1000)
-        data.push({
-          name: `${leftPad(date.getUTCMonth() + 1, '0', 2)}/${leftPad(date.getUTCDate(), '0', 2)}`,  // Change the date format to be MM/DD
-          amount: result.matching_results,
-          date: date})
+      if (respo.title !== 'Extra Column') {
+        for (const result of respo.aggregations[0].results) {
+          const date = new Date(0)
+          // The date is in milliseconds provided by Watson, NOTE milliseconds!
+          date.setUTCSeconds(result.key / 1000)
+          data.push({
+            name: `${leftPad(date.getUTCMonth() + 1, '0', 2)}/${leftPad(date.getUTCDate(), '0', 2)}`,  // Change the date format to be MM/DD
+            amount: result.matching_results,
+            date: date})
+        }
+        respo['aggregationData'] = data.sort(this.sort)
       }
       // const sorted = data.sort(this.sort)
-      respo['aggregationData'] = data.sort(this.sort)
     }
     this.setState({
       loading: false,
@@ -238,16 +239,19 @@ class AlertExample extends Component {
     this.getAAlertsPre(tag)
       .then(([brands, products, related, positive, stocks]) => {
         let resArray = []
+        let extraobj = {}
         brands['title'] = 'Brand Alerts'
         products['title'] = 'Product Alerts' 
         related['title'] = 'Related Brands'
         positive['title'] = 'Positive Product Alerts'
         stocks['title'] = 'Stock Alerts'
+        extraobj['title'] = 'Extra Column'
         resArray.push(brands)
         resArray.push(products)
         resArray.push(related)
         resArray.push(positive)
         resArray.push(stocks)
+        resArray.push(extraobj)
         this.setState({ resArray: resArray, loading: false })
         this.parseAllBody()
       // both have loaded!
@@ -391,40 +395,75 @@ class AlertExample extends Component {
           </div>
         )
       } else {
+        
         return (
           <div>
           {this.state.resArray[0].aggregationData && this.state.resArray.map((card, i) =>
             <Col md={4} className='card-col' key={i}>
-              <div className='card'>
-                <Row>
-                  <Col md={12}>
-                    <h4>{card.title}</h4>    
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={12}>
-                    <Row>
-                      <Col md={12}>
-                        {console.log(card)}
-                        <SimpleLineChart data={card.aggregationData} name={card.title} />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md={12}>
-                        {card.results && card.results.map((result, j) =>
-                          <div key={j}>
-                            <h5>
-                              <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
-                              <a href={result.url} title={result.title}>{result.title}</a>
-                            </h5>
-                            <p>{result.alchemyapi_text}</p>
-                          </div>
-                        )}
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>                
-              </div>
+              {function EmptyList(cardod) {
+                let cardo = cardod.card
+                console.log(cardo)
+                if (cardo.title === 'Extra Column') {
+                  return (
+                    <div className='card'>
+                      <Row className="no-margin">
+                        <Col md={12} className="no-padding">
+                          <h4>{cardo.title}</h4>    
+                        </Col>
+                      </Row>
+                      <Row className="no-margin">
+                        <Col md={12} className="no-padding">
+                          <Row className="no-margin">
+                            <Col md={12} className="no-padding">
+                              ////////Data Here////////
+                            </Col>
+                          </Row>
+                          <Row className="no-margin">
+                            <Col md={12} className="no-padding" style={{height: '200px', overflow: 'auto'}}>
+                              /////More Data Here //////
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>                
+                    </div>
+                  )
+                } else {
+                  return (
+                    <div className='card'>
+                      <Row className="no-margin">
+                        <Col md={12} className="no-padding">
+                          <h4>{cardo.title}</h4>    
+                        </Col>
+                      </Row>
+                      <Row className="no-margin">
+                        <Col md={12} className="no-padding">
+                          <Row className="no-margin">
+                            <Col md={12} className="no-padding">
+                              <SimpleLineChart data={cardo.aggregationData} name={cardo.title} />
+                            </Col>
+                          </Row>
+                          <Row className="no-margin">
+                            <Col md={12} className="no-padding" style={{height: '200px', overflow: 'auto'}}>
+                              <ListGroup>
+                                {cardo.results && cardo.results.map((result, j) =>
+                                  <ListGroupItem key={j} href={result.url} title={result.title} target='_blank' style={{padding: '3px 12px'}}>
+                                    <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
+                                    {result.title}
+                                    {result.alchemyapi_text 
+                                      ? (<p>{result.alchemyapi_text}</p>)
+                                      : ('')
+                                    }
+                                  </ListGroupItem>
+                                )}
+                              </ListGroup>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>                
+                    </div>
+                  ) 
+                }
+              }({card})}
             </Col>
           )}
           </div>
