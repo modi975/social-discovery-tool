@@ -1,5 +1,6 @@
 body {
   font-size: 13px !important;
+  line-height: 1.2;
 }
 
 label.clickable-tab {
@@ -59,8 +60,8 @@ p {
   border-radius: 50%;
   border-top: 10px solid #3498db;
   width: 50px;
-  margin: auto;
   height: 50px;
+  margin: auto;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
@@ -114,4 +115,12 @@ h4{
 }
 .input-group{
   float: left;
+}
+/* form input size*/
+.form-group-sm .form-control{
+  width: 20% !important;
+}
+
+.navbar {
+  margin-bottom: 5px !important; 
 }

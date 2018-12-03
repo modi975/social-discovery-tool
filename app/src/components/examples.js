@@ -16,7 +16,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button } from 'react-bootstrap'
+import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button} from 'react-bootstrap'
 import { Route, Switch } from 'react-router-dom'
 import logo from '../logo.png'
 
@@ -192,12 +192,13 @@ export class AllExample extends Component {
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
-            <Breadcrumb>
+            <Breadcrumb className="breadcrumbs">
               <Breadcrumb.Item href="/#">Social Discovey</Breadcrumb.Item>
               <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
             </Breadcrumb>
           </Nav>
-        </Navbar>;
+        </Navbar>
+
         <Grid fluid>
           <Switch>    
             <Route path='/trackit/:tag' component={AllAlerts} />

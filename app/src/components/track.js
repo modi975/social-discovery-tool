@@ -16,7 +16,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts/lib'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts/lib'
 import { Row, Col, FormGroup, InputGroup, FormControl, Button, Alert, ListGroup, ListGroupItem } from 'react-bootstrap'
 import { JsonLinkInline } from 'watson-react-components/dist/components'
 import { Tracking } from './tracking'
@@ -44,13 +44,12 @@ class SimpleLineChart extends Component {
   // margin={{top: 5, right: 30, left: 20, bottom: 5}}
   render() {
     return (
-      <ResponsiveContainer width='85%' aspect={16.0/9.0}>
+      <ResponsiveContainer width='85%' aspect={16.0/5.0}>
         <LineChart data={this.state.data}>
           <XAxis dataKey='name'/>
           <YAxis/>
           <CartesianGrid strokeDasharray='3 3'/>
           <Tooltip/>
-          <Legend />
           <Line name={this.state.name} type='monotone' dataKey='amount' stroke='rgb(255, 204, 0)' activeDot={{r: 8}}/>
         </LineChart>
       </ResponsiveContainer>
@@ -344,12 +343,12 @@ class AlertExample extends Component {
     } else {
       if (this.state.resArray.length === 0) {
         return (
-          <div>
+          <div className="card">
             {this.renderSearchBox()}
             <Tracking query={this.state.query} keyword={this.state.keyword}  />
             <Row>
               <Col md={6} mdPush={6}>
-                <Row>
+                <Row className='card-body'>
                   <Col md={12}>
                     <h2>Visualization of <b>aggregation</b> results</h2>
                     <SimpleLineChart data={this.state.aggregationData} name='Matching articles per day' />
@@ -398,6 +397,9 @@ class AlertExample extends Component {
         
         return (
           <div>
+          <div style={{marginBottom: '5px'}}>
+            <Tracking query={this.state.query} keyword={this.state.keyword}/>
+          </div>
           {this.state.resArray[0].aggregationData && this.state.resArray.map((card, i) =>
             <Col md={4} className='card-col no-padding' key={i}>
               {function EmptyList(cardod) {
@@ -419,7 +421,7 @@ class AlertExample extends Component {
                             </Col>
                           </Row>
                           <Row className="no-margin">
-                            <Col md={12} className="no-padding" style={{height: '200px', overflow: 'auto'}}>
+                            <Col md={12} className="no-padding" style={{height: '110px', overflow: 'auto'}}>
                               /////More Data Here //////
                             </Col>
                           </Row>
@@ -443,10 +445,10 @@ class AlertExample extends Component {
                             </Col>
                           </Row>
                           <Row className="no-margin">
-                            <Col md={12} className="no-padding" style={{height: '200px', overflow: 'auto'}}>
+                            <Col md={12} className="no-padding" style={{height: '110px', overflow: 'auto', fontSize: '12px'}}>
                               <ListGroup>
                                 {cardo.results && cardo.results.map((result, j) =>
-                                  <ListGroupItem key={j} href={result.url} title={result.title} target='_blank' style={{padding: '3px 12px'}}>
+                                  <ListGroupItem key={j} href={result.url} title={result.title} target='_blank' style={{padding: '2px 12px'}}>
                                     <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
                                     {result.title}
                                     {result.alchemyapi_text 
