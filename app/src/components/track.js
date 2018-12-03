@@ -44,14 +44,14 @@ class SimpleLineChart extends Component {
   // margin={{top: 5, right: 30, left: 20, bottom: 5}}
   render() {
     return (
-      <ResponsiveContainer width='80%' aspect={16.0/9.0}>
+      <ResponsiveContainer width='85%' aspect={16.0/9.0}>
         <LineChart data={this.state.data}>
           <XAxis dataKey='name'/>
           <YAxis/>
           <CartesianGrid strokeDasharray='3 3'/>
           <Tooltip/>
           <Legend />
-          <Line name={this.state.name} type='monotone' dataKey='amount' stroke='rgb(152, 85, 212)' activeDot={{r: 8}}/>
+          <Line name={this.state.name} type='monotone' dataKey='amount' stroke='rgb(255, 204, 0)' activeDot={{r: 8}}/>
         </LineChart>
       </ResponsiveContainer>
     )
@@ -66,7 +66,7 @@ const Loader = (props) => {
   const cols = props.cols
   return (
     <Col md={cols}>
-      <div className='center-block center-text'>
+      <div className='center-block text-center'>
         <div className="loader"></div>
         <p>Loading Alerts from Watson</p>
       </div>
@@ -399,7 +399,7 @@ class AlertExample extends Component {
         return (
           <div>
           {this.state.resArray[0].aggregationData && this.state.resArray.map((card, i) =>
-            <Col md={4} className='card-col' key={i}>
+            <Col md={4} className='card-col no-padding' key={i}>
               {function EmptyList(cardod) {
                 let cardo = cardod.card
                 console.log(cardo)
