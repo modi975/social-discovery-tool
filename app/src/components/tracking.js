@@ -146,6 +146,7 @@ export class Tracking extends Component {
                 <FormControl
                   id='emailAddress'
                   name='emailAddress'
+                  className='custom-height'
                   placeholder='Email address'
                   disabled={this.state.loading}
                   onChange={this.emailChanged}
@@ -158,7 +159,7 @@ export class Tracking extends Component {
                   placeholder="select"
                   value={this.state.frequency}
                   onChange={this.frequencyChanged}
-                  className={this.state.frequencyClass}
+                  className='custom-height'
                 >
                   <option value="select">select</option>
                   <option value="daily">daily</option>
@@ -166,7 +167,7 @@ export class Tracking extends Component {
                   <option value="monthly">monthly</option>
                 </FormControl>
               </FormGroup>
-              <Button disabled={this.state.loading} onClick={this.formSubmit}>{!this.state.loading ? 'Track' : (<div className="loader"></div>)}</Button>
+              <Button className="custom-height" disabled={this.state.loading} onClick={this.formSubmit}>{!this.state.loading ? 'Track' : (<div className="loader"></div>)}</Button>
             </form>
           </Col>
         </Row>

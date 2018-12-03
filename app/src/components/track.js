@@ -44,7 +44,7 @@ class SimpleLineChart extends Component {
   // margin={{top: 5, right: 30, left: 20, bottom: 5}}
   render() {
     return (
-      <ResponsiveContainer width='85%' aspect={16.0/5.0}>
+      <ResponsiveContainer width='85%' aspect={16.0/5.5}>
         <LineChart data={this.state.data}>
           <XAxis dataKey='name'/>
           <YAxis/>
@@ -300,7 +300,7 @@ class AlertExample extends Component {
   //   return (
   //     <Col md={3} className='card-col' key={i}>
   //       <div className='card'>
-  //         <h4>{card.title}</h4>
+  //         <h4 style={{marginTop: '3px', marginBottom: '3px'}}>{card.title}</h4>
   //       </div>
   //     </Col>
   //   )
@@ -408,9 +408,9 @@ class AlertExample extends Component {
                 if (cardo.title === 'Extra Column') {
                   return (
                     <div className='card'>
-                      <Row className="no-margin">
+                      <Row className="no-margin" style={{backgroundColor: 'rgba(128, 128, 128, 0.18)'}}>
                         <Col md={12} className="no-padding">
-                          <h4>{cardo.title}</h4>    
+                          <h4 style={{marginTop: '3px', marginBottom: '3px'}}>{cardo.title}</h4>    
                         </Col>
                       </Row>
                       <Row className="no-margin">
@@ -432,9 +432,9 @@ class AlertExample extends Component {
                 } else {
                   return (
                     <div className='card'>
-                      <Row className="no-margin">
+                      <Row className="no-margin" style={{backgroundColor: 'rgba(128, 128, 128, 0.18)'}}>
                         <Col md={12} className="no-padding">
-                          <h4>{cardo.title}</h4>    
+                          <h4 style={{marginTop: '3px', marginBottom: '3px'}}>{cardo.title}</h4>    
                         </Col>
                       </Row>
                       <Row className="no-margin">
