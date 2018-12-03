@@ -55,9 +55,9 @@ p {
 }
 
 .loader {
-  border: 16px solid #f3f3f3;
+  border: 14px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid #3498db;
+  border-top: 14px solid #3498db;
   width: 60px;
   height: 60px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -81,8 +81,9 @@ p {
 
 .card-col {
   border: 1px solid grey;
-  padding: 0.5rem;
+  /*padding: 0.5rem;*/
   /* margin: 1rem; */
+  border-radius: 4px;
   float: left;
 }
 
@@ -92,4 +93,24 @@ p {
 
 .no-padding {
   padding: 0px !important;
+}
+/* font and padding size changed in breadcrumbs */
+.breadcrumbs{
+  padding-top: 24px;
+}
+/* logo spacing */
+img{  
+  padding-left: 20px;
+}
+.list-group-item{
+  height: 36px;
+  background-color: #f8f8f8;
+  border: 1px solid #ffffff;
+}
+h4{
+  text-align: center;
+  font-size: 16px;
+}
+.input-group{
+  float: left;
 }
