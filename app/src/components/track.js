@@ -17,8 +17,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts/lib'
-import { Row, Col, FormGroup, InputGroup, FormControl, Button, Alert, ListGroup, ListGroupItem } from 'react-bootstrap'
-import { JsonLinkInline } from 'watson-react-components/dist/components'
+import { Row, Col, FormGroup, InputGroup, FormControl, Button, Alert, ListGroup, ListGroupItem, Modal} from 'react-bootstrap'
+import { JsonLinkInline} from 'watson-react-components/dist/components'
 import { Tracking } from './tracking'
 import { leftPad } from '../models/frequency'
 
@@ -37,14 +37,15 @@ class SimpleLineChart extends Component {
     super(props)
     this.state = {
       data: props.data,
-      name: props.name
+      name: props.name,
+      ar: props.ar
     }
-    console.log(this.state)
+    // console.log(this.state)
   }
   // margin={{top: 5, right: 30, left: 20, bottom: 5}}
   render() {
     return (
-      <ResponsiveContainer width='85%' aspect={16.0/5.0}>
+      <ResponsiveContainer width='85%' aspect={this.state.ar}>
         <LineChart data={this.state.data}>
           <XAxis dataKey='name'/>
           <YAxis/>
@@ -60,6 +61,58 @@ SimpleLineChart.propTypes = {
   name: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired
 }
+
+// Modal to show individual alerts
+class DetailsModal extends React.Component {
+  render() {
+    return(
+      <Modal
+      {...this.props}
+      aria-labelledby="contained-modal-title-lg"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-lg"><h4>{this.props.data.title}</h4></Modal.Title>
+      </Modal.Header>
+        <Modal.Body>
+          {/* {console.log(this.props.data)} */}
+          <div>
+            <Row className="no-margin">
+              <Col md={12} className="no-padding">
+                <Row className="no-margin">
+                  <Col md={12} className="no-padding">
+                    <SimpleLineChart  ar={16.0/7.0} data={this.props.data.aggregationData} name={this.props.data.title} />
+                  </Col>
+                </Row>
+                <Row className="no-margin">
+                  <Col md={12} className="no-padding">
+                    <ListGroup>
+                      {this.props.data.results && this.props.data.results.map((result, j) =>
+                        <ListGroupItem key={j} href={result.url} title={result.title} target='_blank' style={{ padding: '2px 12px' }}>
+                          <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
+                          {result.title}
+                          {result.alchemyapi_text
+                            ? (<p>{result.alchemyapi_text}</p>)
+                            : ('')
+                          }
+                        </ListGroupItem>
+                      )}
+                    </ListGroup>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </div>
+        </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={this.props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+    );
+  }
+}
+// DetailsModal.propTypes = {
+//   title: PropTypes.string.isRequired
+// }
 
 const Loader = (props) => {
   const cols = props.cols
@@ -92,6 +145,8 @@ class AlertExample extends Component {
       showExampleResultResponse: false,
       aggregationData: null,
       resArray: [],
+      detailsShow: false,
+      modalData: {}
     }
     this.getAlerts = this.getAlerts.bind(this)
     this.getAAlerts = this.getAAlerts.bind(this)
@@ -99,6 +154,8 @@ class AlertExample extends Component {
     this.parseAllBody = this.parseAllBody.bind(this)
     this.showResultsOrError = this.showResultsOrError.bind(this)
     this.renderSearchBox = this.renderSearchBox.bind(this)
+    // this.detailsClose = this.detailsClose.bind(this)
+    // this.detailsOpen = this.detailsOpen.bind(this)
     // this.getBrandAlerts = this.getBrandAlerts.bind(this)
     // this.getProductAlerts = this.getProductAlerts.bind(this) 
     // this.getRealtedAlerts = this.getRealtedAlerts.bind(this)
@@ -296,6 +353,8 @@ class AlertExample extends Component {
     )
   }
 
+  // detailsClose() {this.setState({ detailsShow: false });}
+  // detailsOpen() {this.setState({ detailsShow: true });}
   // renderCards(card, i) {
   //   return (
   //     <Col md={3} className='card-col' key={i}>
@@ -351,7 +410,7 @@ class AlertExample extends Component {
                 <Row className='card-body'>
                   <Col md={12}>
                     <h2>Visualization of <b>aggregation</b> results</h2>
-                    <SimpleLineChart data={this.state.aggregationData} name='Matching articles per day' />
+                    <SimpleLineChart  ar={16.0/9.0} data={this.state.aggregationData} name='Matching articles per day' />
                   </Col>
                 </Row>
                 <Row>
@@ -394,7 +453,13 @@ class AlertExample extends Component {
           </div>
         )
       } else {
-        
+        // let modalData = {}
+        let detailsClose = () => this.setState({ detailsShow: false });
+        let detailsOpen = (cardo) => {
+          console.log(cardo);
+          // modalData = cardo
+          this.setState({ detailsShow: true, modalData: cardo });
+        }
         return (
           <div>
           <div style={{marginBottom: '5px'}}>
@@ -404,7 +469,6 @@ class AlertExample extends Component {
             <Col md={4} className='card-col no-padding' key={i}>
               {function EmptyList(cardod) {
                 let cardo = cardod.card
-                console.log(cardo)
                 if (cardo.title === 'Extra Column') {
                   return (
                     <div className='card'>
@@ -439,9 +503,9 @@ class AlertExample extends Component {
                       </Row>
                       <Row className="no-margin">
                         <Col md={12} className="no-padding">
-                          <Row className="no-margin">
+                          <Row className="no-margin" onClick={() => {detailsOpen(cardo);}}>
                             <Col md={12} className="no-padding">
-                              <SimpleLineChart data={cardo.aggregationData} name={cardo.title} />
+                              <SimpleLineChart ar={16.0/5.0} data={cardo.aggregationData} name={cardo.title} />
                             </Col>
                           </Row>
                           <Row className="no-margin">
@@ -468,6 +532,7 @@ class AlertExample extends Component {
               }({card})}
             </Col>
           )}
+          <DetailsModal show={this.state.detailsShow} data={this.state.modalData} onHide={detailsClose} />
           </div>
         )
       }

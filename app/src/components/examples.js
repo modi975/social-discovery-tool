@@ -149,7 +149,7 @@ export class Example extends Component {
           </Navbar.Header>
           <Nav>
             <Breadcrumb>
-              <Breadcrumb.Item href="/#">Social Discovey</Breadcrumb.Item>
+              <Breadcrumb.Item href="/#">Social learning</Breadcrumb.Item>
               <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
             </Breadcrumb>
           </Nav>
@@ -185,6 +185,7 @@ export class AllExample extends Component {
   render() {
     return (
       <div>
+        <title>EY Social Learning Tool</title>
         <Navbar fluid>
           <Navbar.Header>
             <Navbar.Brand>
@@ -193,7 +194,7 @@ export class AllExample extends Component {
           </Navbar.Header>
           <Nav>
             <Breadcrumb className="breadcrumbs">
-              <Breadcrumb.Item href="/#">Social Discovey</Breadcrumb.Item>
+              <Breadcrumb.Item href="/#">Social learning</Breadcrumb.Item>
               <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
             </Breadcrumb>
           </Nav>
@@ -208,7 +209,6 @@ export class AllExample extends Component {
     )
   }
 }
-
 AllExample.propTypes = {
   match: PropTypes.object.isRequired
 }

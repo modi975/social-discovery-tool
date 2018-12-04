@@ -37,7 +37,7 @@ const Home = () => (
       </Navbar.Header>
       <Nav>
         <Breadcrumb>
-          <Breadcrumb.Item active>Social Discovey</Breadcrumb.Item>
+          <Breadcrumb.Item active>Social Learning</Breadcrumb.Item>
         </Breadcrumb>
       </Nav>
     </Navbar>;
