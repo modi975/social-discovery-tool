@@ -19,7 +19,6 @@ import PropTypes from 'prop-types'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts/lib'
 import { Row, Col, FormGroup, InputGroup, FormControl, Button, Alert, ListGroup, ListGroupItem, Modal} from 'react-bootstrap'
 import { JsonLinkInline} from 'watson-react-components/dist/components'
-import { Tracking } from './tracking'
 import { leftPad } from '../models/frequency'
 
 import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS, ALL_ALERTS } from '../watson/constants'
@@ -393,7 +392,6 @@ class AlertExample extends Component {
             </Col>
           </Row>
           {this.renderSearchBox()}
-          <Tracking query={this.state.query} keyword={this.state.keyword}  />
         </div>
       )
     } else if(this.state.keyword === null || typeof this.state.keyword === 'undefined' || this.state.keyword === '') {
@@ -404,7 +402,6 @@ class AlertExample extends Component {
         return (
           <div className="card">
             {this.renderSearchBox()}
-            <Tracking query={this.state.query} keyword={this.state.keyword}  />
             <Row>
               <Col md={6} mdPush={6}>
                 <Row className='card-body'>
@@ -463,7 +460,6 @@ class AlertExample extends Component {
         return (
           <div>
           <div style={{marginBottom: '5px'}}>
-            <Tracking query={this.state.query} keyword={this.state.keyword}/>
           </div>
           {this.state.resArray[0].aggregationData && this.state.resArray.map((card, i) =>
             <Col md={4} className='card-col no-padding' key={i}>

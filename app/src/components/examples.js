@@ -16,7 +16,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button} from 'react-bootstrap'
+import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button, FormGroup, FormControl, Overlay, ControlLabel, Popover } from 'react-bootstrap'
 import { Route, Switch } from 'react-router-dom'
 import logo from '../logo.png'
 
@@ -197,6 +197,47 @@ export class AllExample extends Component {
               <Breadcrumb.Item href="/#">Social learning</Breadcrumb.Item>
               <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
             </Breadcrumb>
+          </Nav>
+          <Nav pullRight>
+          <form inline className="form-inline" style>
+              <FormGroup controlId="subscriptionemail">
+                <ControlLabel>Receive alerts when these results change:</ControlLabel>
+                <Overlay
+                  show={this.state.emailInvalid}
+                  placement="bottom"
+                  container={this}
+                  containerPadding={20}
+                >
+                  <Popover id="popover-contained" title="Error">
+                    A <strong>valid</strong> email address is required to track these alerts.
+                  </Popover>
+                </Overlay>
+                <FormControl
+                  id='emailAddress'
+                  name='emailAddress'
+                  className='custom-height'
+                  placeholder='Email address'
+                  disabled={this.state.loading}
+                  onChange={this.emailChanged}
+                />
+                <FormControl.Feedback />
+              </FormGroup>
+              <FormGroup controlId="subscriptionefrequency">
+                <FormControl
+                  componentClass="select"
+                  placeholder="select"
+                  value={this.state.frequency}
+                  onChange={this.frequencyChanged}
+                  className='custom-height'
+                >
+                  <option value="select">select</option>
+                  <option value="daily">daily</option>
+                  <option value="weekly">weekly</option>
+                  <option value="monthly">monthly</option>
+                </FormControl>
+              </FormGroup>
+              <Button className="custom-height" disabled={this.state.loading} onClick={this.formSubmit}>{!this.state.loading ? 'Track' : (<div className="loader"></div>)}</Button>
+            </form>
           </Nav>
         </Navbar>
 
