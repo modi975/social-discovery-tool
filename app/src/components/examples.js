@@ -20,6 +20,7 @@ import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button} from 'react-boo
 import { Route, Switch } from 'react-router-dom'
 import logo from '../logo.png'
 import { Tracking } from './tracking'
+import { Chat } from './chatbox'
 
 import { BrandAlerts, ProductAlerts, RelatedBrands, PositiveProductAlerts, StockAlerts, AllAlerts } from './track'
 import { ALL_ALERTS } from '../watson/constants'
@@ -211,6 +212,7 @@ export class AllExample extends Component {
             <Route path='/trackit/:tag' component={AllAlerts} />
           </Switch>
         </Grid>
+        <Chat />
       </div>
     )
   }

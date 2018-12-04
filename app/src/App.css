@@ -127,3 +127,52 @@ h4{
   height: 28px !important;
   padding: 3px 10px !important;
 }
+
+.chatbox {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  width: 250px;
+}
+
+.chatbutton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50% !important;
+  height: 40px !important;
+  width: 40px !important;
+}
+.chatbutton:focus {
+  outline: none;
+  outline-offset: unset;
+}
+
+.chatbuttonanim-enter {
+  opacity: 0.05;
+}
+
+.chatbuttonanim-enter.chatbuttonanim-enter-active {
+  opacity: 1;
+  transition: opacity 800ms ease-in;
+}
+
+.chatbuttonanim-exit {
+  opacity: 1;
+}
+
+.chatbuttonanim-exit.chatbuttonanim-exit-active {
+  opacity: 0.05;
+  transition: opacity 800ms ease-in;
+}
+
+
+.chatboxanim {
+  height: 0px;
+  transition: height 0.8s;
+}
+
+.chatboxanim-active {
+  height: 360px;
+  transition: height 0.8s;
+}

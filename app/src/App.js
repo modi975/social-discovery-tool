@@ -24,6 +24,7 @@ import { ExampleList, Example, AllExample } from './components/examples'
 import { CurrentSubscriptions } from './components/subscription'
 import logo from './logo.png'
 import './App.css'
+import { Chat } from './components/chatbox'
 // import 'watson-react-components/dist/css/watson-react-components.min.css'
 
 // Primary homepage
@@ -44,6 +45,7 @@ const Home = () => (
     <Grid fluid>
       <ExampleList />
     </Grid>
+    <Chat />
   </div>
 )
 
