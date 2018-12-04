@@ -123,3 +123,8 @@ h4{
 .navbar {
   margin-bottom: 5px !important; 
 }
+
+.custom-height {
+  height: 28px !important;
+  padding: 3px 10px !important;
+}

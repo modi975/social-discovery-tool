@@ -45,7 +45,11 @@ class SimpleLineChart extends Component {
   // margin={{top: 5, right: 30, left: 20, bottom: 5}}
   render() {
     return (
+<<<<<<< HEAD
       <ResponsiveContainer width='85%' aspect={this.state.ar}>
+=======
+      <ResponsiveContainer width='85%' aspect={16.0/5.5}>
+>>>>>>> 3793a14399f31c2a87bc725d1deec37df995eaeb
         <LineChart data={this.state.data}>
           <XAxis dataKey='name'/>
           <YAxis/>
@@ -359,7 +363,7 @@ class AlertExample extends Component {
   //   return (
   //     <Col md={3} className='card-col' key={i}>
   //       <div className='card'>
-  //         <h4>{card.title}</h4>
+  //         <h4 style={{marginTop: '3px', marginBottom: '3px', color: '#fff'}}>{card.title}</h4>
   //       </div>
   //     </Col>
   //   )
@@ -472,9 +476,9 @@ class AlertExample extends Component {
                 if (cardo.title === 'Extra Column') {
                   return (
                     <div className='card'>
-                      <Row className="no-margin">
+                      <Row className="no-margin" style={{backgroundColor: 'rgb(53, 53, 53)'}}>
                         <Col md={12} className="no-padding">
-                          <h4>{cardo.title}</h4>    
+                          <h4 style={{marginTop: '3px', marginBottom: '3px', color: '#fff'}}>{cardo.title}</h4>    
                         </Col>
                       </Row>
                       <Row className="no-margin">
@@ -496,9 +500,9 @@ class AlertExample extends Component {
                 } else {
                   return (
                     <div className='card'>
-                      <Row className="no-margin">
+                      <Row className="no-margin" style={{backgroundColor: 'rgb(53, 53, 53)'}}>
                         <Col md={12} className="no-padding">
-                          <h4>{cardo.title}</h4>    
+                          <h4 style={{marginTop: '3px', marginBottom: '3px', color: '#fff'}}>{cardo.title}</h4>    
                         </Col>
                       </Row>
                       <Row className="no-margin">
