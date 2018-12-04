@@ -16,12 +16,13 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button, FormGroup, FormControl, Overlay, ControlLabel, Popover } from 'react-bootstrap'
+import { Grid, Row, Col, Navbar, Nav, Breadcrumb, Image, Button} from 'react-bootstrap'
 import { Route, Switch } from 'react-router-dom'
 import logo from '../logo.png'
+import { Tracking } from './tracking'
 
 import { BrandAlerts, ProductAlerts, RelatedBrands, PositiveProductAlerts, StockAlerts, AllAlerts } from './track'
-// import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS, All_ALERTS } from '../watson/constants'
+import { ALL_ALERTS } from '../watson/constants'
 import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS } from '../watson/constants'
 
 // TODO rename
@@ -144,7 +145,7 @@ export class Example extends Component {
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/#" style={{height: '95px'}}><Image src={logo} style={{height: '100%'}}/></a>
+              <a href="/#" style={{height: 50 + 'px'}}><Image src={logo} style={{height: 100 + '%'}}/></a>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
@@ -189,7 +190,7 @@ export class AllExample extends Component {
         <Navbar fluid>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/#" style={{height: '54px', padding: '0px'}}><Image src={logo} style={{height: '100%'}}/></a>
+              <a href="/#" style={{height: 50 + 'px', padding: 0 + 'px'}}><Image src={logo} style={{height: 100 + '%'}}/></a>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
@@ -198,46 +199,10 @@ export class AllExample extends Component {
               <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
             </Breadcrumb>
           </Nav>
-          <Nav pullRight>
-          <form inline className="form-inline" style>
-              <FormGroup controlId="subscriptionemail">
-                <ControlLabel>Receive alerts when these results change:</ControlLabel>
-                <Overlay
-                  show={this.state.emailInvalid}
-                  placement="bottom"
-                  container={this}
-                  containerPadding={20}
-                >
-                  <Popover id="popover-contained" title="Error">
-                    A <strong>valid</strong> email address is required to track these alerts.
-                  </Popover>
-                </Overlay>
-                <FormControl
-                  id='emailAddress'
-                  name='emailAddress'
-                  className='custom-height'
-                  placeholder='Email address'
-                  disabled={this.state.loading}
-                  onChange={this.emailChanged}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
-              <FormGroup controlId="subscriptionefrequency">
-                <FormControl
-                  componentClass="select"
-                  placeholder="select"
-                  value={this.state.frequency}
-                  onChange={this.frequencyChanged}
-                  className='custom-height'
-                >
-                  <option value="select">select</option>
-                  <option value="daily">daily</option>
-                  <option value="weekly">weekly</option>
-                  <option value="monthly">monthly</option>
-                </FormControl>
-              </FormGroup>
-              <Button className="custom-height" disabled={this.state.loading} onClick={this.formSubmit}>{!this.state.loading ? 'Track' : (<div className="loader"></div>)}</Button>
-            </form>
+          <Nav pullRight style={{width: 50 + '%'}}>
+            <div style={{margin: 0, position: 'absolute', top: 50 + '%', MsTransform: 'translateY(-50%)', transform: 'translateY(-50%)'}}>
+              <Tracking query={ALL_ALERTS} keyword={this.state.match.params.tag}  />
+            </div>
           </Nav>
         </Navbar>
 

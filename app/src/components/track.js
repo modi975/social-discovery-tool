@@ -19,6 +19,7 @@ import PropTypes from 'prop-types'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts/lib'
 import { Row, Col, FormGroup, InputGroup, FormControl, Button, Alert, ListGroup, ListGroupItem, Modal} from 'react-bootstrap'
 import { JsonLinkInline} from 'watson-react-components/dist/components'
+import { Tracking } from './tracking'
 import { leftPad } from '../models/frequency'
 
 import { BRAND_ALERTS, PRODUCT_ALERTS, RELATED_BRANDS, POSITIVE_PRODUCT_ALERTS, STOCK_ALERTS, ALL_ALERTS } from '../watson/constants'
@@ -86,7 +87,7 @@ class DetailsModal extends React.Component {
                   <Col md={12} className="no-padding">
                     <ListGroup>
                       {this.props.data.results && this.props.data.results.map((result, j) =>
-                        <ListGroupItem key={j} href={result.url} title={result.title} target='_blank' style={{ padding: '2px 12px' }}>
+                        <ListGroupItem key={j} href={result.url} title={result.title} target='_blank' style={{padding: 2 + 'px ' + 12 + 'px'}}>
                           <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
                           {result.title}
                           {result.alchemyapi_text
@@ -392,6 +393,7 @@ class AlertExample extends Component {
             </Col>
           </Row>
           {this.renderSearchBox()}
+          <Tracking query={this.state.query} keyword={this.state.keyword}  />
         </div>
       )
     } else if(this.state.keyword === null || typeof this.state.keyword === 'undefined' || this.state.keyword === '') {
@@ -402,6 +404,7 @@ class AlertExample extends Component {
         return (
           <div className="card">
             {this.renderSearchBox()}
+            <Tracking query={this.state.query} keyword={this.state.keyword}  />
             <Row>
               <Col md={6} mdPush={6}>
                 <Row className='card-body'>
@@ -453,14 +456,12 @@ class AlertExample extends Component {
         // let modalData = {}
         let detailsClose = () => this.setState({ detailsShow: false });
         let detailsOpen = (cardo) => {
-          console.log(cardo);
+          // console.log(cardo);
           // modalData = cardo
           this.setState({ detailsShow: true, modalData: cardo });
         }
         return (
           <div>
-          <div style={{marginBottom: '5px'}}>
-          </div>
           {this.state.resArray[0].aggregationData && this.state.resArray.map((card, i) =>
             <Col md={4} className='card-col no-padding' key={i}>
               {function EmptyList(cardod) {
@@ -470,7 +471,7 @@ class AlertExample extends Component {
                     <div className='card'>
                       <Row className="no-margin" style={{backgroundColor: 'rgb(53, 53, 53)'}}>
                         <Col md={12} className="no-padding">
-                          <h4 style={{marginTop: '3px', marginBottom: '3px', color: '#fff'}}>{cardo.title}</h4>    
+                          <h4 style={{marginTop: 3 + 'px', marginBottom: 3 + 'px', color: '#fff'}}>{cardo.title}</h4>    
                         </Col>
                       </Row>
                       <Row className="no-margin">
@@ -481,7 +482,7 @@ class AlertExample extends Component {
                             </Col>
                           </Row>
                           <Row className="no-margin">
-                            <Col md={12} className="no-padding" style={{height: '110px', overflow: 'auto'}}>
+                            <Col md={12} className="no-padding" style={{height: 110 + 'px', overflow: 'auto'}}>
                               /////More Data Here //////
                             </Col>
                           </Row>
@@ -494,7 +495,7 @@ class AlertExample extends Component {
                     <div className='card'>
                       <Row className="no-margin" style={{backgroundColor: 'rgb(53, 53, 53)'}}>
                         <Col md={12} className="no-padding">
-                          <h4 style={{marginTop: '3px', marginBottom: '3px', color: '#fff'}}>{cardo.title}</h4>    
+                          <h4 style={{marginTop: 3 + 'px', marginBottom: 3 + 'px', color: '#fff'}}>{cardo.title}</h4>    
                         </Col>
                       </Row>
                       <Row className="no-margin">
@@ -505,10 +506,10 @@ class AlertExample extends Component {
                             </Col>
                           </Row>
                           <Row className="no-margin">
-                            <Col md={12} className="no-padding" style={{height: '110px', overflow: 'auto', fontSize: '12px'}}>
+                            <Col md={12} className="no-padding" style={{height: 110 + 'px', overflow: 'auto', fontSize: 12 + 'px'}}>
                               <ListGroup>
                                 {cardo.results && cardo.results.map((result, j) =>
-                                  <ListGroupItem key={j} href={result.url} title={result.title} target='_blank' style={{padding: '2px 12px'}}>
+                                  <ListGroupItem key={j} href={result.url} title={result.title} target='_blank' style={{padding: 2 + 'px ' + 12 + 'px'}}>
                                     <span className='extra-right-space'>Score: {result.score.toPrecision(2)}</span>
                                     {result.title}
                                     {result.alchemyapi_text 
@@ -821,12 +822,6 @@ export class AllAlerts extends AlertExample {
   getAllAlerts(tag) {
     console.log(tag)
     this.getAAlerts(tag)
-  }
-
-  renderSearchBox() {
-    return (
-      <div></div>
-    )
   }
 
   componentDidMount() {
