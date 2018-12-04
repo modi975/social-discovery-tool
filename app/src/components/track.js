@@ -45,11 +45,7 @@ class SimpleLineChart extends Component {
   // margin={{top: 5, right: 30, left: 20, bottom: 5}}
   render() {
     return (
-<<<<<<< HEAD
       <ResponsiveContainer width='85%' aspect={this.state.ar}>
-=======
-      <ResponsiveContainer width='85%' aspect={16.0/5.5}>
->>>>>>> 3793a14399f31c2a87bc725d1deec37df995eaeb
         <LineChart data={this.state.data}>
           <XAxis dataKey='name'/>
           <YAxis/>
