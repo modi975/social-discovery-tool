@@ -130,9 +130,37 @@ h4{
 
 .chatbox {
   position: fixed;
-  bottom: 60px;
+  bottom: 75px;
   right: 20px;
   width: 250px;
+}
+
+.chatbox ::-webkit-scrollbar {
+  display: none;
+}
+
+.chatbox .form-group {
+  width: 100% !important;
+  margin-right: 0px !important;
+  position: relative !important;
+}
+
+.chatbox .form-control {
+  border: 0px solid grey !important;
+  border-radius: 0px !important;
+  border-bottom-left-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  width: 100% !important;
+  padding-right: 45px !important;
+}
+.chatbox .panel.panel-info {
+  border-color: #35d2f3;
+}
+
+.chatbox .panel.panel-info .panel-heading {
+  color: #fff;
+  background-color: #83ccf1;
+  border-color: #35d2f3;
 }
 .chatbutton {
   position: fixed;
@@ -175,51 +203,50 @@ h4{
   height: 360px;
   transition: height 0.5s;
 }
-.chat-button
-{
+.chat-button {
   width: 34px !important;
 }
-.message {
-  margin: 15px 0;
-}
 
-.message .message-username {
-  font-size: 18px;
-  color: #000000;
-  opacity: 0.9;
-  margin-bottom: 10px;
+.message {
+  overflow: auto;
+}
+.message .message-text {
+  float: right;
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 20px;
 }
 .message .message-text p {
-  background-image: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+  background-image: linear-gradient(141deg, #1fc8db 0%, #6ee5f3 51%, #57bce2 75%);
   color: #000000;
   display: block;
-  padding: 4px 8px;
-  border-radius: 5px;
-  margin-left: 60px;
-  opacity: 0.44;
+  padding: 5px;
+  border-radius: 4px;
+  /* margin-left: 60px; */
 }
-/*.message-text ::afters
-  content: "";
-  display: block;
-  position: absolute;
-  left: 20px;
-  top: 109px;
-  width: 0;
-  border-width: 3px 10px;
-  border-style: solid;
-  border-color: #ff99cc;
-}*/
+
 .message-list {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: 300px;
   overflow: scroll; 
 }
-.chat-icon{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin: 10px;
-  float: left;
-  background-image: linear-gradient(141deg, #6f4568 0%, #be92da 51%, #a987c7 75%);
+
+.sendbutton {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  outline: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  text-align: center;
+  font-weight: bold;
+  padding: 0px;
+  background-color: #fff;
+}
+.sendbutton:hover{
+  cursor:pointer;
+  background-color: aliceblue;
 }

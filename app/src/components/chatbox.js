@@ -7,21 +7,6 @@ import { CSSTransition } from 'react-transition-group';
 // import 'watson-react-components/dist/css/watson-react-components.min.css'
 // import 'whatwg-fetch'
 
-const DUMMY_DATA = [
-  {
-      senderId: 'Ronnie',
-      text: 'Hey, how is it going?'
-  },
-  {
-      senderId: 'John',
-      text: 'Great! How about you?'
-  },
-  {
-      senderId: 'Ronnie',
-      text: 'Good to hear! I am great as well'
-  }
-]
-
 export class Chat extends Component {
   // constructor(props) {
     // super(props)
@@ -30,6 +15,7 @@ export class Chat extends Component {
     this.state = {
       loading: false,
       expanded: false,
+      convo: [],
       message: ''
     }
     this.toggleChatbox = this.toggleChatbox.bind(this);
@@ -51,36 +37,50 @@ export class Chat extends Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log(this.state.message);
-    /** send off the message */
+    let convoArray = this.state.convo;
+    /** Set Your Mesasge in Box */
+    convoArray.push({'senderId': 'user', 'text': this.state.message});
+    this.setState({message: '', convo: convoArray});
+    // API Call for response
+    // Uncomment the following Group and add api url
+    /* fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        convoArray.push({'senderId': 'bot', 'text': data.message});
+          // Set API Message in Box 
+        this.setState({convo: convoArray});
+      })
+      .catch((error) => {
+        console.error(error);
+      }); */
   }
   
   // {this.state.expanded &&}
   render() {
     return (
       <div>
-        <div className='chatbox' style={this.state.expanded ? {bottom: 100 + 'px'} : {bottom: 0 + 'px'}}>
+        <div className='chatbox' style={this.state.expanded ? {bottom: 75 + 'px'} : {bottom: 0 + 'px'}}>
           <div className={(this.state.expanded ? 'chatboxanim-active' : 'chatboxanim')}>
-          <Panel bsStyle="primary" className='chat-panel'>
-            <Panel.Heading>
+          <Panel bsStyle="info" className='chat-panel'>
+            <Panel.Heading style={{padding: 5 + 'px ' + 15 + 'px'}}>
               <Panel.Title componentClass="h3">We are live...</Panel.Title>
             </Panel.Heading>
-            <Panel.Body style={{height: 300 + 'px', overflow: 'auto', paddingLeft: 0 + 'px'}}>
-              <div className="message-list">
-                  {DUMMY_DATA.map((message, index) => {
+            <Panel.Body style={{height: 300 + 'px', overflow: 'hidden', padding: 0 + 'px', position: 'relative'}}>
+              <div style={{position: 'absolute', bottom: 0 + 'px', width: 100 + '%'}}>
+                <div className="message-list">
+                  {this.state.convo.map((message, index) => {
                       return (
                         <div key= {index} className="message">
-                          <div className="message-username">
-                          <div className="chat-icon">
-                          </div>
-                          <p style={{paddingTop: 9 + 'px'}}>{message.senderId}</p></div>
                           <div className="message-text">
-                          <p>{message.text}</p></div>
+                            <p>{message.text}</p>
+                          </div>
                         </div>
                       )
                   })}
+                </div>
               </div>
             </Panel.Body>
-            <Panel.Footer>
+            <Panel.Footer style={{padding: 0 + 'px'}}>
               <Form inline onSubmit={this.handleSubmit}>
                 <FormGroup>
                   <FormControl
@@ -89,6 +89,7 @@ export class Chat extends Component {
                     placeholder="Type Your message"
                     onChange={this.handleChange}
                   />
+                  <Button type='submit' className='sendbutton'><Glyphicon glyph="send"/></Button>
                 </FormGroup>
               </Form>
             </Panel.Footer>
