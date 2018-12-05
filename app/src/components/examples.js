@@ -155,7 +155,7 @@ export class Example extends Component {
               <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
             </Breadcrumb>
           </Nav>
-        </Navbar>;
+        </Navbar>
         <Grid>
           <Switch>
             <Route exact path={this.state.match.url} component={ExampleList} />

@@ -45,7 +45,7 @@ class SimpleLineChart extends Component {
   // margin={{top: 5, right: 30, left: 20, bottom: 5}}
   render() {
     return (
-      <ResponsiveContainer width='85%' aspect={this.state.ar}>
+      <ResponsiveContainer width='88%' aspect={this.state.ar}>
         <LineChart data={this.state.data}>
           <XAxis dataKey='name'/>
           <YAxis/>
@@ -501,8 +501,8 @@ class AlertExample extends Component {
                       <Row className="no-margin">
                         <Col md={12} className="no-padding">
                           <Row className="no-margin" onClick={() => {detailsOpen(cardo);}}>
-                            <Col md={12} className="no-padding">
-                              <SimpleLineChart ar={16.0/5.0} data={cardo.aggregationData} name={cardo.title} />
+                            <Col md={12} className="no-padding"style={{marginTop: 5 + 'px'}}>
+                              <SimpleLineChart ar={16.0/5.5} data={cardo.aggregationData} name={cardo.title} />
                             </Col>
                           </Row>
                           <Row className="no-margin">

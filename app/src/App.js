@@ -41,7 +41,7 @@ const Home = () => (
           <Breadcrumb.Item active>Social Learning</Breadcrumb.Item>
         </Breadcrumb>
       </Nav>
-    </Navbar>;
+    </Navbar>
     <Grid fluid>
       <ExampleList />
     </Grid>
