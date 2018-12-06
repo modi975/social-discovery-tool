@@ -70,7 +70,7 @@ export class ExampleList extends Component {
           )
         },
         {
-          header: 'Extra Column',
+          header: '360° VIEW OF YOUR BRAND',
           url: `/track/${STOCK_ALERTS}/`,
           body: (
             <p>Nothing markets change quickly when news breaks, using Watson you can keep track of early warning signs of your stocks being upgraded or downgraded by experts.</p>
@@ -151,7 +151,7 @@ export class Example extends Component {
           </Navbar.Header>
           <Nav>
             <Breadcrumb>
-              <Breadcrumb.Item href="/#">Social learning</Breadcrumb.Item>
+              <Breadcrumb.Item href="/#">Social Listening</Breadcrumb.Item>
               <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
             </Breadcrumb>
           </Nav>
@@ -187,7 +187,7 @@ export class AllExample extends Component {
   render() {
     return (
       <div>
-        <title>EY Social Learning Tool</title>
+        <title>EY Social Listening</title>
         <Navbar fluid>
           <Navbar.Header>
             <Navbar.Brand>
@@ -196,7 +196,7 @@ export class AllExample extends Component {
           </Navbar.Header>
           <Nav>
             <Breadcrumb className="breadcrumbs">
-              <Breadcrumb.Item href="/#">Social learning</Breadcrumb.Item>
+              <Breadcrumb.Item href="/#">Social Listening</Breadcrumb.Item>
               <Breadcrumb.Item active>Tracking</Breadcrumb.Item>
             </Breadcrumb>
           </Nav>

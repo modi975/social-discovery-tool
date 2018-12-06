@@ -51,7 +51,7 @@ class SimpleLineChart extends Component {
           <YAxis/>
           <CartesianGrid strokeDasharray='3 3'/>
           <Tooltip/>
-          <Line name={this.state.name} type='monotone' dataKey='amount' stroke='rgb(255, 204, 0)' activeDot={{r: 8}}/>
+          <Line name={this.state.name} type='monotone' dataKey='amount' stroke='rgb(241, 224, 90)' activeDot={{r: 8}}/>
         </LineChart>
       </ResponsiveContainer>
     )
@@ -80,7 +80,7 @@ class DetailsModal extends React.Component {
               <Col md={12} className="no-padding">
                 <Row className="no-margin">
                   <Col md={12} className="no-padding">
-                    <SimpleLineChart  ar={16.0/7.0} data={this.props.data.aggregationData} name={this.props.data.title} />
+                    <SimpleLineChart  ar={16.0 / 7.0} data={this.props.data.aggregationData} name={this.props.data.title} />
                   </Col>
                 </Row>
                 <Row className="no-margin">
@@ -232,7 +232,7 @@ class AlertExample extends Component {
     for (let respo of this.state.resArray) {
       const data = []
       // console.log(respo)
-      if (respo.title !== 'Extra Column') {
+      if (respo.title !== '360° VIEW OF YOUR BRAND') {
         for (const result of respo.aggregations[0].results) {
           const date = new Date(0)
           // The date is in milliseconds provided by Watson, NOTE milliseconds!
@@ -301,7 +301,8 @@ class AlertExample extends Component {
         related['title'] = 'Related Brands'
         positive['title'] = 'Positive Product Alerts'
         stocks['title'] = 'Stock Alerts'
-        extraobj['title'] = 'Extra Column'
+        extraobj['title'] = '360° VIEW OF YOUR BRAND'
+        
         resArray.push(brands)
         resArray.push(products)
         resArray.push(related)
@@ -410,7 +411,7 @@ class AlertExample extends Component {
                 <Row className='card-body'>
                   <Col md={12}>
                     <h2>Visualization of <b>aggregation</b> results</h2>
-                    <SimpleLineChart  ar={16.0/9.0} data={this.state.aggregationData} name='Matching articles per day' />
+                    <SimpleLineChart  ar={16.0 / 9.0} data={this.state.aggregationData} name='Matching articles per day' />
                   </Col>
                 </Row>
                 <Row>
@@ -466,24 +467,32 @@ class AlertExample extends Component {
             <Col md={4} className='card-col no-padding' key={i}>
               {function EmptyList(cardod) {
                 let cardo = cardod.card
-                if (cardo.title === 'Extra Column') {
+                if (cardo.title === "360° VIEW OF YOUR BRAND") {
                   return (
-                    <div className='card'>
+                    <div className='card' >
                       <Row className="no-margin" style={{backgroundColor: 'rgb(53, 53, 53)'}}>
                         <Col md={12} className="no-padding">
-                          <h4 style={{marginTop: 3 + 'px', marginBottom: 3 + 'px', color: '#fff'}}>{cardo.title}</h4>    
+                          <h4 style={{marginTop: 3 + 'px', marginBottom: 3 + 'px', color: '#fff'}}>{cardo.title}</h4> 
                         </Col>
                       </Row>
-                      <Row className="no-margin">
-                        <Col md={12} className="no-padding">
-                          <Row className="no-margin">
-                            <Col md={12} className="no-padding">
-                              ////////Data Here////////
+                      <Row className="no-margin" >
+                        <Col md={12} className="no-padding" >
+                        <Row className="no-margin" style={{height: 5 + 'px',backgroundColor: '#f1e05a'}}>
+                            <Col md={12} className='extra-right-space'>
+                            <p>&nbsp;</p>
+                            </Col>
+                        </Row>    
+                          <Row className="no-margin" style={{backgroundColor: 'white'}}>
+                            <Col md={12} className='extra-right-space'><p></p>
+                            Go beyond social to track discussions on online news sites, blogs, forums, offline databases and understand what your customers and prospects think of your brand
                             </Col>
                           </Row>
-                          <Row className="no-margin">
-                            <Col md={12} className="no-padding" style={{height: 110 + 'px', overflow: 'auto'}}>
-                              /////More Data Here //////
+                          <Row className="no-margin" style={{backgroundColor: 'white'}}>
+                            <Col md={12} className='extra-right-space' style={{height: 186 + 'px', overflow: 'auto'}}><p></p>
+                            Never miss another opportunity to connect with your audience and react to issues as they happen. Discover how your brand assets are being used with fully integrated proprietary visual listening.
+                            <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+                            <p align='right' valign='bottom'><strong>Amitabh Kumar</strong></p>
+                            <p align='right' valign='bottom'><strong>amitabh1.kumar@in.ey.com</strong></p>
                             </Col>
                           </Row>
                         </Col>
@@ -502,7 +511,7 @@ class AlertExample extends Component {
                         <Col md={12} className="no-padding">
                           <Row className="no-margin" onClick={() => {detailsOpen(cardo);}}>
                             <Col md={12} className="no-padding"style={{marginTop: 5 + 'px'}}>
-                              <SimpleLineChart ar={16.0/5.5} data={cardo.aggregationData} name={cardo.title} />
+                              <SimpleLineChart ar={16.0 / 5.5} data={cardo.aggregationData} name={cardo.title} />
                             </Col>
                           </Row>
                           <Row className="no-margin">
